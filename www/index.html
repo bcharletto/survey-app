@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Obligatorio Taller</title>
+
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core@6.5.2/dist/ionic/ionic.esm.js"></script>
+  <script nomodules src="https://cdn.jsdelivr.net/npm/@ionic/core@6.5.2/dist/ionic/ionic.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core@6.5.2/css/ionic.bundle.css" />
+
+  <link rel="stylesheet" href="./css/dark.css" />
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+
+<body>
+  <ion-app>
+    <ion-router>
+      <ion-route url="/" component="page-home"></ion-route>
+      <ion-route url="/login" component="page-login"></ion-route>
+      <ion-route url="/registro" component="page-registro"></ion-route>
+      <ion-route url="/listado-personas" component="page-listado-personas"></ion-route>
+      <ion-route url="/total-censados" component="page-total-censados"></ion-route>
+      <ion-route url="/mapa" component="page-mapa"></ion-route>
+
+    </ion-router>
+
+    <ion-router-outlet></ion-router-outlet>
+
+    <ion-menu content-id="main-content" menu-id="main-menu">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Menu</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-item href="/">
+            <ion-label>Home</ion-label>
+          </ion-item>
+          <ion-item href="/login">
+            <ion-label>Login</ion-label>
+          </ion-item>
+          <ion-item href="/registro">
+            <ion-label>Registro</ion-label>
+          </ion-item>
+          
+          <ion-item href="/listado-personas">
+            <ion-label>Listado de personas</ion-label>
+            <!-- agregar filtros en esta pagina, ocupacion, ya censados por censista -->
+          </ion-item>
+          <ion-item href="/total-censados">
+            <ion-label>Total Censados</ion-label>
+          </ion-item>          
+          <ion-item href="/mapa">
+            <ion-label>Mapa</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-button fill="outline" size="small" id="logout" color="danger">Logout</ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+
+    <ion-content id="main-content">
+      <ion-page class="ion-page" id="page-home">
+        <ion-header>
+          <ion-toolbar color="dark">
+            <ion-buttons slot="start">
+              <ion-menu-button menu="main-menu" auto-hide="false"></ion-menu-button>
+            </ion-buttons>
+            <ion-title>HOME</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding-horizontal">
+          <h1>Bienvenido!</h1>
+        </ion-content>
+
+        <ion-footer>
+          <ion-toolbar color="custom">
+          </ion-toolbar>
+        </ion-footer>
+      </ion-page>
+
+      <ion-page class="ion-page" id="page-registro">
+        <ion-header>
+          <ion-toolbar color="dark">
+            <ion-buttons slot="start">
+              <ion-menu-button menu="main-menu" auto-hide="false"></ion-menu-button>
+            </ion-buttons>
+            <ion-title>Censo</ion-title>
+          </ion-toolbar>
+        </ion-header>
+
+        <ion-content class="ion-padding-horizontal">
+          <h1>Registro</h1>
+
+          <form id="formRegistroUsu">
+            <ion-list>
+              <ion-item>
+                <ion-label position="floating">Usuario</ion-label>
+                <ion-input id="inpUsuRegistro" type="text"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Password</ion-label>
+                <ion-input id="inpPassRegistro" type="password"></ion-input>
+              </ion-item>
+
+              <ion-button type="submit" expand="block" id="btnRegistrarse">
+                Registrarse
+              </ion-button>
+
+          </form>
+
+          <ion-button href="/login" expand="block" fill="clear">
+            Ir al login
+          </ion-button>
+        </ion-content>
+
+        <ion-footer>
+          <ion-toolbar color="custom">
+          </ion-toolbar>
+        </ion-footer>
+      </ion-page>
+
+      <ion-page class="ion-page" id="page-login">
+        <ion-header>
+          <ion-toolbar color="dark">
+            <ion-buttons slot="start">
+              <ion-menu-button menu="main-menu" auto-hide="false"></ion-menu-button>
+            </ion-buttons>
+            <ion-title>Censo</ion-title>
+          </ion-toolbar>
+        </ion-header>
+
+        <ion-content class="ion-padding-horizontal">
+          <h1>Login</h1>
+
+          <form id="formLogin">
+            <ion-list>
+              <ion-item>
+                <ion-label position="floating">Usuario</ion-label>
+                <ion-input id="inpUsuLogin" type="text"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Password</ion-label>
+                <ion-input id="inpPassLogin" type="password"></ion-input>
+              </ion-item>
+            </ion-list>
+
+            <ion-button type="submit" expand="block" id="btnLogin">
+              Login
+            </ion-button>
+          </form>
+
+          <ion-button href="/registro" expand="block" fill="clear">
+            Ir al registro
+          </ion-button>
+        </ion-content>
+
+        <ion-footer>
+          <ion-toolbar color="custom">
+            <ion-title>Esquivel - Charletto</ion-title>
+          </ion-toolbar>
+        </ion-footer>
+      </ion-page>
+
+
+      <ion-page class="ion-page" id="page-listado-personas">
+        <ion-header>
+          <ion-toolbar color="dark">
+            <ion-buttons slot="start">
+              <ion-menu-button menu="main-menu" auto-hide="false"></ion-menu-button>
+            </ion-buttons>
+            <ion-title>CENSO</ion-title>
+          </ion-toolbar>
+        </ion-header>
+
+        <ion-content class="ion-padding-horizontal">
+          <ion-list-header>
+            <ion-title size="large" expand="block">Personas Censadas</ion-title>
+          </ion-list-header>
+
+          <ion-button size="small" id="btnAbrirModalPersona">Agregar persona a censar</ion-button>
+
+          <ion-select interface="action-sheet" id="filtroOcupacion" placeholder="Filtrar por ocupacion">
+          
+          </ion-select>
+          <!--  <ion-select interface="action-sheet" id="tipoPersona" placeholder="Selecciona tipo de movimiento">
+              `<ion-select-option value="gasto">Gasto</ion-select-option>
+              <ion-select-option value="ingreso">Ingreso</ion-select-option>
+            </ion-select> -->
+
+          <div id="listadoPersonas"></div>
+
+          <ion-modal id="modalNuevaPersona">
+            <ion-header>
+              <ion-toolbar>
+                <ion-buttons slot="start">
+                  <ion-button id="btnCerrarModalPersona">Cancelar</ion-button>
+                </ion-buttons>
+                <ion-buttons slot="end">
+                  <ion-button id="btnIngresarPersona">Confirmar</ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+              <form id="formRegistroPersona">
+                <ion-title size="large" class="ion-text-center">Agrega una nueva persona censada</ion-title>
+                <br>
+                <ion-item>
+                  <ion-label position="stacked">Nombre:</ion-label>
+                  <ion-input type="text" id="inpNombrePersona"></ion-input>
+                </ion-item>
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-select interface="action-sheet" id="selDeptos" placeholder="Departamento"></ion-select>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col>
+                    <ion-item>
+                      <ion-select interface="action-sheet" id="selCiudades" placeholder="Ciudad"></ion-select>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-item>
+                  <ion-label position="stacked">Fecha de Nacimiento:</ion-label>
+                  <ion-datetime type="text" id="inpFecha"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                  <ion-select interface="action-sheet" id="selOcupacion" placeholder="Ocupacion"></ion-select>
+                </ion-item>
+              </form>
+            </ion-content>
+          </ion-modal>
+          
+
+<!-- 
+          <ion-modal id="modalNuevaPersona">
+            <ion-header>
+              <ion-toolbar>
+                <ion-buttons slot="start">
+                  <ion-button id="btnCerrarModalPersona">Cancelar</ion-button>
+                </ion-buttons>
+                <ion-buttons slot="end">
+                  <ion-button id="btnIngresarPersona">Confirmar</ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+              <form id="formRegistroPersona">
+                <ion-title size="large">Agrega una nueva persona censada</ion-title>
+                <br>
+                <ion-item>
+                  <ion-label position="stacked">Nombre:</ion-label>
+                  <ion-input type="text" id="inpNombrePersona"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-list>
+                    <ion-item>
+                      <ion-select interface="action-sheet" id="selDeptos" placeholder="Departamento"></ion-select>
+                    </ion-item>
+                  </ion-list>
+                  <ion-list>
+                    <ion-item>
+                      <ion-select interface="action-sheet" id="selCiudades" placeholder="Ciudad">
+                      </ion-select>
+                    </ion-item>
+                  </ion-list>
+                  <ion-item>
+                    <ion-label position="stacked">Fecha de Nacimiento:</ion-label>
+                    <ion-datetime type="inpFecha" id="inpFecha"></ion-datetime>
+                 </ion-item>
+                  <ion-item>
+                    <ion-select interface="action-sheet" id="selOcupacion" placeholder="Ocupacion"></ion-select>
+                  </ion-item>
+                </ion-item>
+              </form>
+          </ion-modal> -->
+
+        </ion-content>
+
+        <ion-footer>
+          <ion-toolbar color="custom">
+          </ion-toolbar>
+        </ion-footer>
+      </ion-page>
+
+      <ion-page class="ion-page" id="page-total-censados">
+        <ion-header>
+          <ion-toolbar color="dark">
+            <ion-buttons slot="start">
+              <ion-menu-button menu="main-menu" auto-hide="false"></ion-menu-button>
+            </ion-buttons>
+            <ion-title>CENSO</ion-title>
+          </ion-toolbar>
+        </ion-header>
+
+        <ion-content class="ion-padding-horizontal">
+          <ion-list-header>
+            <ion-title size="large" expand="block">Personas Censadas</ion-title>
+          </ion-list-header>
+          <ion-grid>
+            <ion-row>
+            <ion-col><strong>Total censados</strong></ion-col>
+            <ion-col><strong>Total censados en Montevideo</strong></ion-col>
+            <ion-col><strong>Total censados en el interior</strong></ion-col>
+            </ion-row>
+            <ion-row>
+            <ion-col id="totalCensados"></ion-col>
+            <ion-col id="totalCensadosMvd"></ion-col>
+            <ion-col id="totalCensadosInterior"></ion-col>
+            </ion-row>
+            </ion-grid>
+          <div id="totalCensados"></div>
+        </ion-content>
+
+        <ion-footer>
+          <ion-toolbar color="custom">
+          </ion-toolbar>
+        </ion-footer>
+      </ion-page>
+
+      <ion-page class="ion-page" id="page-mapa">
+        <ion-header>
+          <ion-toolbar color="dark">
+            <ion-buttons slot="start">
+              <ion-menu-button menu="main-menu" auto-hide="false"></ion-menu-button>
+            </ion-buttons>
+            <ion-title>Ver</ion-title>
+          </ion-toolbar>
+        </ion-header>
+
+        <ion-content class="ion-padding-horizontal">
+          <div id="info">
+            <ion-item fill="solid">
+            <ion-label for="distanciaEnKm" position="floating">Ingrese diámetro en kilómetros</ion-label>
+
+            <ion-input placeholder="KM" id="distanciaEnKm"></ion-input>
+  
+              <ion-button id="btnCalcular" expand="block"
+  
+                onclick="mostrarCiudadesCensadas()">Mostrar distancia</ion-button>
+  
+            </ion-item>
+          </div>
+          <div id="map"></div>
+        </ion-content>
+
+        <ion-footer>
+          <ion-toolbar color="custom">
+            <div id="shareLink"></div>
+          </ion-toolbar>
+        </ion-footer>
+      </ion-page>
+
+    </ion-content>
+  </ion-app>
+
+  <script src="./js/utils.js"></script>
+  <script src="./js/script.js"></script>
+</body>
+
+</html>
